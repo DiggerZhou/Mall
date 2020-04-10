@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <NavBar>
         <div slot="left" class="back" @click="backClick">
             <img src="~assets/images/common/back.svg" alt="">
@@ -40,6 +40,7 @@ export default {
 </script>
 
 <style scoped>
+
     .title{
         display: flex;
     }
