@@ -13,6 +13,8 @@
     </Scroll>
     <DetailBottomBar @addToCart="addToCart"></DetailBottomBar>
     <BackTop @click.native="BackClick" v-show="isShowBackTop"></BackTop>
+
+    <!-- <Toast :message="message" :show="show"></Toast> -->
   </div>
 </template>
 
@@ -35,10 +37,12 @@ import DetailCommentInfo from "./childComps/DetailCommentInfo";
 import DetailRecommendInfo from "./childComps/DetailRecommendInfo";
 import DetailBottomBar from "./childComps/DetailBottomBar";
 import Scroll from "components/common/scroll/Scroll";
-import { itemListenerMixin ,backTopMixin} from "common/mixin";
+import { itemListenerMixin, backTopMixin } from "common/mixin";
+
+import Toast from "components/common/toast/Toast";
 export default {
   name: "Detail",
-  mixins: [itemListenerMixin,backTopMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data() {
     return {
       iid: null,
@@ -50,7 +54,9 @@ export default {
       commentInfo: {},
       recommends: [],
       themeTopYs: [],
-      currentIndex: 0
+      currentIndex: 0,
+      // message: "",
+      // show: false
     };
   },
   created() {
@@ -144,17 +150,26 @@ export default {
       }
       this.isShowBackTop = -position.y > 1000;
     },
-    addToCart(){
+    addToCart() {
       // 添加到购物车,先取到要传到购物车界面的数据
-      const product = {}
-      product.image = this.topImages[0]
-      product.title = this.goods.title
-      product.desc = this.goods.desc
-      product.price = this.goods.newPrice
-      product.iid  = this.iid
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.newPrice;
+      product.iid = this.iid;
       // 然后用vuex保存这些数据
-      this.$store.dispatch('addCart',product)
-
+      // 然后将这些数据添加到cartList里面去，同事用promise的then继续做toast
+      // 这里不能直接弹出弹框说我已经添加商品成功之类的，必须要actions里用promise返回，确认我已经添加成功了，才能继续弹窗
+      this.$store.dispatch("addCart", product).then(res => {
+        // this.show = true;
+        // this.message = res;
+        // setTimeout(() => {
+        //   this.show = false;
+        //   this.message = "";
+        // }, 1500);这种是普通的toast组件用法，但是toast非常的常用，如果每用一次都要重复这样操作，太麻烦了，所以不采用这种普通的方法
+        this.$toast.isShow(res,2000)
+      });
     }
   },
   components: {
@@ -168,7 +183,8 @@ export default {
     // GoodsList,
     DetailRecommendInfo,
     DetailBottomBar,
-    Scroll
+    Scroll,
+    Toast
   }
 };
 </script>
