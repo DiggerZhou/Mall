@@ -6,11 +6,23 @@ import store from './store'
 
 import toast from 'components/common/toast'
 
+import FastClick from 'fastclick'
+
+import VueLazyLoad from 'vue-lazyload'
+
 Vue.config.productionTip = false
 
 Vue.prototype.$bus = new Vue()
-
+// 注册toast全局插件
 Vue.use(toast)
+// 300ms延迟的解决方法
+FastClick.attach(document.body)
+
+// 使用图片懒加载插件
+Vue.use(VueLazyLoad,{
+  loading:require('./assets/images/common/placeholder.png')
+  // loading是占位置的，github上的vuelazyload还有很多的选择项，loading只是其中一种
+})
 
 /* eslint-disable no-new */
 new Vue({

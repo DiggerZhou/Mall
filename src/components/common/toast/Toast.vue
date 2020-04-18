@@ -1,5 +1,5 @@
 <template>
-  <div class="toast" v-show="show">
+  <div class="toast" v-show="isShow">
       <div >{{message}}</div>
   </div>
 </template>
@@ -44,5 +44,7 @@ export default {
     padding: 8px 10px;
     color: #fff;
     background-color:rgba(0, 0, 0, .8);
+
+    z-index: 9;
 }
 </style>

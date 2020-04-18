@@ -54,7 +54,7 @@ export default {
       commentInfo: {},
       recommends: [],
       themeTopYs: [],
-      currentIndex: 0,
+      currentIndex: 0
       // message: "",
       // show: false
     };
@@ -103,9 +103,15 @@ export default {
       this.recommends = res.data.list;
     });
   },
+  mounted() {
+    this.$bus.$on("itemImageLoad", () => {
+      this.$refs.scroll.refresh();
+    });
+  },
   methods: {
     imageLoad() {
-      this.newRefresh();
+      // this.newRefresh();
+      this.$refs.scroll.refresh();
       this.themeTopYs = [];
       // 这里必须要把themeTopYs重置为空，不然每一个refresh都会往themeTopYs填充数据
       this.themeTopYs.push(0);
@@ -168,10 +174,11 @@ export default {
         //   this.show = false;
         //   this.message = "";
         // }, 1500);这种是普通的toast组件用法，但是toast非常的常用，如果每用一次都要重复这样操作，太麻烦了，所以不采用这种普通的方法
-        this.$toast.isShow(res,2000)
+        this.$toast.show(res, 2000);
       });
     }
   },
+
   components: {
     DetailNavBar,
     DetailSwiper,
