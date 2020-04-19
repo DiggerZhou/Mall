@@ -104,9 +104,11 @@ export default {
     });
   },
   mounted() {
-    this.$bus.$on("itemImageLoad", () => {
-      this.$refs.scroll.refresh();
-    });
+    setTimeout(() => {
+      this.$bus.$on("itemImageLoad", () => {
+        this.$refs.scroll.refresh();
+      });
+    }, 2000);
   },
   methods: {
     imageLoad() {
